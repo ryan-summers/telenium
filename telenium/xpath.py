@@ -43,8 +43,9 @@ class Selector(object):
 
 
 class SequenceSelector(Selector):
-    first = None
-    second = None
+    def __init__(self, first, second):
+        self.first = first
+        self.second = second
 
     def filter(self, root, items):
         items = self.first.filter(root, items)
@@ -56,7 +57,9 @@ class SequenceSelector(Selector):
 
 
 class AllClassSelector(Selector):
-    classname = None
+
+    def __init__(self, classname):
+        self.classname = classname
 
     def filter(self, root, items):
         if not items:
@@ -71,7 +74,8 @@ class AllClassSelector(Selector):
 
 
 class ChildrenClassSelector(Selector):
-    classname = None
+    def __init__(self, classname):
+        self.classname = classname
 
     def filter(self, root, items):
         items = list(items)
@@ -85,11 +89,13 @@ class ChildrenClassSelector(Selector):
 
 
 class IndexSelector(Selector):
-    index = None
+
+    def __init__(self, index):
+        self.index = index
 
     def filter(self, root, items):
         try:
-            for index, item in enumerate(reversed(list(items))):
+            for index, item in enumerate(list(items)):
                 if index == self.index:
                     yield item
                     return
@@ -101,7 +107,8 @@ class IndexSelector(Selector):
 
 
 class AttrExistSelector(Selector):
-    attr = None
+    def __init__(self, attr):
+        self.attr = attr
 
     def filter(self, root, items):
         for item in items:
@@ -113,9 +120,10 @@ class AttrExistSelector(Selector):
 
 
 class AttrOpSelector(Selector):
-    attr = None
-    op = None
-    value = None
+    def __init__(self, attr, op, value):
+        self.attr = attr
+        self.op = op
+        self.value = value
 
     def filter(self, root, items):
         op = self.op

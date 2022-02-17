@@ -100,6 +100,7 @@ def selectFirst(selector, root=None):
 
 def rpc_getattr(selector, key):
     widget = selectFirst(selector)
+    Logger.info(f'Found widget: {widget}')
     if widget:
         return getattr(widget, key)
 
@@ -109,9 +110,11 @@ def path_to(widget):
     root = Window
     if widget.parent is root or widget.parent == widget or not widget.parent:
         return "/{}".format(widget.__class__.__name__)
+
+    filtered = filter(lambda child: child.__class__ == widget.__class__, widget.parent.children)
     return "{}/{}[{}]".format(
         path_to(widget.parent), widget.__class__.__name__,
-        widget.parent.children.index(widget))
+        list(filtered).index(widget))
 
 
 def rpc_ping():
