@@ -100,7 +100,6 @@ def selectFirst(selector, root=None):
 
 def rpc_getattr(selector, key):
     widget = selectFirst(selector)
-    Logger.info(f'Found widget: {widget}')
     if widget:
         return getattr(widget, key)
 
